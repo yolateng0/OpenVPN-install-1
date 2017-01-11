@@ -122,7 +122,7 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 			if [[ "$NUMBEROFCLIENTS" = '1' ]]; then
 				read -r -p "Select one client [1]: " CLIENTNUMBER
 			else
-				read -p "Select one client [1-$NUMBEROFCLIENTS]: " CLIENTNUMBER
+				read -r -p "Select one client [1-$NUMBEROFCLIENTS]: " CLIENTNUMBER
 			fi
 			CLIENT=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | sed -n "$CLIENTNUMBER"p)
 			cd /etc/openvpn/easy-rsa/
@@ -140,7 +140,7 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 			;;
 			3)
 			echo ""
-			read -p "Do you really want to remove OpenVPN? [y/n]: " -e -i n REMOVE
+			read -r -p "Do you really want to remove OpenVPN? [y/n]: " -e -i n REMOVE
 			if [[ "$REMOVE" = 'y' ]]; then
 				PORT=$(grep '^port ' /etc/openvpn/server.conf | cut -d " " -f 2)
 				if pgrep firewalld; then
@@ -281,7 +281,7 @@ else
 	echo "   2) 3072 bits (recommended, best compromise)"
 	echo "   3) 4096 bits (most secure)"
 	while [[ $RSA_KEY_SIZE != "1" && $RSA_KEY_SIZE != "2" && $RSA_KEY_SIZE != "3" ]]; do
-		read -p "DH key size [1-3]: " -e -i 2 RSA_KEY_SIZE
+		read -r -p "DH key size [1-3]: " -e -i 2 RSA_KEY_SIZE
 	done
 	case $RSA_KEY_SIZE in
 		1)
@@ -346,7 +346,7 @@ else
 		echo ""
 		echo "Continuing will update your installed packages and install needed ones."
 		while [[ $CONTINUE != "y" && $CONTINUE != "n" ]]; do
-			read -p "Continue ? [y/n]: " -e -i y CONTINUE
+			read -r -p "Continue ? [y/n]: " -e -i y CONTINUE
 		done
 		if [[ "$CONTINUE" = "n" ]]; then
 			echo "Ok, bye !"
@@ -560,7 +560,7 @@ verb 3" >> /etc/openvpn/server.conf
                 echo "If your server is NATed (e.g. LowEndSpirit, Scaleway, or behind a router),"
                 echo "then I need to know the address that can be used to access it from outside."
                 echo "If that's not the case, just ignore this and leave the next field blank"
-                read -p "External IP or domain name: " -e USEREXTERNALIP
+                read -r -p "External IP or domain name: " -e USEREXTERNALIP
 		if [[ "$USEREXTERNALIP" != "" ]]; then
 			IP=$USEREXTERNALIP
 		fi
