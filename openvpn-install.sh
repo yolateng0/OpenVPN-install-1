@@ -33,7 +33,7 @@ if [[ -e /etc/debian_version ]]; then
 		echo "then you can continue, a recent version of OpenVPN is available on these."
 		echo "Keep in mind they are not supported, though."
 		while [[ $CONTINUE != "y" && $CONTINUE != "n" ]]; do
-			read -p "Continue ? [y/n]: " -e CONTINUE
+			read -r -p "Continue ? [y/n]: " -e CONTINUE
 		done
 		if [[ "$CONTINUE" = "n" ]]; then
 			echo "Ok, bye !"
@@ -94,13 +94,13 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 		echo "   2) Revoke existing user cert"
 		echo "   3) Remove OpenVPN"
 		echo "   4) Exit"
-		read -p "Select an option [1-4]: " option
+		read -r -p "Select an option [1-4]: " option
 		case $option in
 			1)
 			echo ""
 			echo "Tell me a name for the client cert"
 			echo "Please, use one word only, no special characters"
-			read -p "Client name: " -e -i client CLIENT
+			read -r -p "Client name: " -e -i client CLIENT
 			cd /etc/openvpn/easy-rsa/
 			./easyrsa build-client-full $CLIENT nopass
 			# Generates the custom client.ovpn
@@ -120,7 +120,7 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 			echo "Select the existing client certificate you want to revoke"
 			tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | nl -s ') '
 			if [[ "$NUMBEROFCLIENTS" = '1' ]]; then
-				read -p "Select one client [1]: " CLIENTNUMBER
+				read -r -p "Select one client [1]: " CLIENTNUMBER
 			else
 				read -p "Select one client [1-$NUMBEROFCLIENTS]: " CLIENTNUMBER
 			fi
@@ -194,15 +194,15 @@ else
 	echo "I need to know the IPv4 address of the network interface you want OpenVPN listening to."
 	echo "If your server is running behind a NAT, (e.g. LowEndSpirit, Scaleway) leave the IP address as it is. (local/private IP)"
 	echo "Otherwise, it should be your public IPv4 address."
-	read -p "IP address: " -e -i $IP IP
+	read -r -p "IP address: " -e -i $IP IP
 	echo ""
 	echo "What port do you want for OpenVPN?"
-	read -p "Port: " -e -i 1194 PORT
+	read -r -p "Port: " -e -i 1194 PORT
 	echo ""
 	echo "What protocol do you want for OpenVPN?"
 	echo "Unless UDP is blocked, you should not use TCP (unnecessarily slower)"
 	while [[ $PROTOCOL != "UDP" && $PROTOCOL != "TCP" ]]; do
-		read -p "Protocol [UDP/TCP]: " -e -i UDP PROTOCOL
+		read -r -p "Protocol [UDP/TCP]: " -e -i UDP PROTOCOL
 	done
 	echo ""
 	echo "What DNS do you want to use with the VPN?"
@@ -212,7 +212,7 @@ else
 	echo "   4) OpenDNS (Anycast: worldwide)"
 	echo "   5) Google (Anycast: worldwide)"
 	while [[ $DNS != "1" && $DNS != "2" && $DNS != "3" && $DNS != "4" && $DNS != "5" ]]; do
-		read -p "DNS [1-5]: " -e -i 2 DNS
+		read -r -p "DNS [1-5]: " -e -i 2 DNS
 	done
 	echo ""
 	echo "See https://github.com/Angristan/OpenVPN-install#encryption to learn more about "
@@ -231,7 +231,7 @@ else
 	echo "   6) CAMELLIA-256-CBC"
 	echo "   7) SEED-CBC"
 	while [[ $CIPHER != "1" && $CIPHER != "2" && $CIPHER != "3" && $CIPHER != "4" && $CIPHER != "5" && $CIPHER != "6" && $CIPHER != "7" ]]; do
-		read -p "Cipher [1-7]: " -e -i 1 CIPHER
+		read -r -p "Cipher [1-7]: " -e -i 1 CIPHER
 	done
 	case $CIPHER in
 		1)
@@ -262,7 +262,7 @@ else
 	echo "   2) 3072 bits (recommended, best compromise)"
 	echo "   3) 4096 bits (most secure)"
 	while [[ $DH_KEY_SIZE != "1" && $DH_KEY_SIZE != "2" && $DH_KEY_SIZE != "3" ]]; do
-		read -p "DH key size [1-3]: " -e -i 2 DH_KEY_SIZE
+		read -r -p "DH key size [1-3]: " -e -i 2 DH_KEY_SIZE
 	done
 	case $DH_KEY_SIZE in
 		1)
@@ -298,7 +298,7 @@ else
 	echo "Finally, tell me a name for the client certificate and configuration"
 	while [[ $CLIENT = "" ]]; do
 		echo "Please, use one word only, no special characters"
-		read -p "Client name: " -e -i client CLIENT
+		read -r -p "Client name: " -e -i client CLIENT
 	done
 	echo ""
 	echo "Okay, that was all I needed. We are ready to setup your OpenVPN server now"
